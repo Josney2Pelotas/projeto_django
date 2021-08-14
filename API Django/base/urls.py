@@ -2,5 +2,6 @@ from django.urls import path
 from base.views import *
 
 urlpatterns = [
-    path('get_infos/', APIView.as_view(), name='classe de teste')
+    path('get_infos/', TabelaView.as_view(), name='classe da tabela'),
+    path('insert_infos/', InsertView.as_view(), name='classe de insercao')
 ]
