@@ -34,3 +34,19 @@ class InserirView(TemplateView):
         url = 'http://127.0.0.1:4000/api-teste/insert_infos/'
         requests.post(url, data=valores).json()
         return redirect('tela de inserção')
+
+
+class UpdateView(TemplateView):
+    template_name = 'base/update.html'
+
+    def get(self, request):
+        url = 'http://127.0.0.1:4000/api-teste/update_infos/'
+        response = requests.get(url).json()
+        return render(request, self.template_name, {'response': response})
+
+    def post(self, request):
+        valores = request.POST.dict()
+        del valores['csrfmiddlewaretoken']
+        url = 'http://127.0.0.1:4000/api-teste/update_infos/'
+        requests.put(url, data=valores).json()
+        return redirect('tela de update')

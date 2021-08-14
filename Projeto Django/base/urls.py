@@ -3,5 +3,6 @@ from base.views import *
 
 urlpatterns = [
     path('dados/', ApresentarView.as_view(), name='tela da tabela'),
-    path('inserir/', InserirView.as_view(), name='tela de inserção')
+    path('inserir/', InserirView.as_view(), name='tela de inserção'),
+    path('update/', UpdateView.as_view(), name='tela de update')
 ]

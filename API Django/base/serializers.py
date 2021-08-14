@@ -17,3 +17,15 @@ class InsertSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Tabela2.objects.create(**validated_data)
+
+
+class UpdateSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    coluna2 = serializers.CharField()
+    coluna1 = serializers.IntegerField()
+
+    def update(self, instance, validated_data):
+        instance.coluna1 = validated_data.get('coluna1', instance.coluna1)
+        instance.coluna2 = validated_data.get('coluna2', instance.coluna2)
+        instance.save()
+        return instance
