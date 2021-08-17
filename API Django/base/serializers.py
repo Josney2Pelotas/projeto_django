@@ -2,7 +2,7 @@ from rest_framework import serializers
 from base.models import *
 
 
-class TabelaSerializer(serializers.Serializer):
+class GetSerializer(serializers.Serializer):
     dados = serializers.ListField()
     ids = serializers.ListField()
 

@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 
 
-class ApresentarView(TemplateView):
+class GetView(TemplateView):
     template_name = 'base/tabela.html'
 
     def get(self, request):
@@ -20,7 +20,7 @@ class ApresentarView(TemplateView):
         return render(request, self.template_name, {'response': response, 'selecionados': lista_ids})
 
 
-class InserirView(TemplateView):
+class InsertView(TemplateView):
     template_name = 'base/insert.html'
 
     def get(self, request):
@@ -50,3 +50,19 @@ class UpdateView(TemplateView):
         url = 'http://127.0.0.1:4000/api-teste/update_infos/'
         requests.put(url, data=valores).json()
         return redirect('tela de update')
+
+
+class DeleteView(TemplateView):
+    template_name = 'base/delete.html'
+
+    def get(self, request):
+        url = 'http://127.0.0.1:4000/api-teste/delete_infos/'
+        response = requests.get(url).json()
+        return render(request, self.template_name, {'response': response})
+
+    def post(self, request):
+        valores = request.POST.dict()
+        del valores['csrfmiddlewaretoken']
+        url = 'http://127.0.0.1:4000/api-teste/delete_infos/'
+        requests.delete(url, data=valores).json()
+        return redirect('tela de delecao')

@@ -5,10 +5,10 @@ from base.serializers import *
 from base.querys import *
 
 
-class TabelaView(APIView):
+class GetView(APIView):
     def get(self, request):
         dados_serializer = {'dados': queryvalores(request.data), 'ids': query_id()}
-        serializer = TabelaSerializer(dados_serializer)
+        serializer = GetSerializer(dados_serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -39,3 +39,15 @@ class UpdateView(APIView):
             serializer.update(serializer.instance, serializer.validated_data)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteView(APIView):
+    def get(self, request):
+        dados_serializer = {'ids': query_id()}
+        serializer = InsertIdsSerializer(dados_serializer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        entry = Tabela1.objects.get(id=request.data['id'])
+        entry.delete()
+        return Response(status=status.HTTP_202_ACCEPTED)
