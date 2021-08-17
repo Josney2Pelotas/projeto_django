@@ -1,7 +1,7 @@
 from base.models import *
 
 
-def QueryTeste(filtro):
+def queryvalores(filtro):
     dados_query = []
 
     if 'tabela1__in' in filtro:
@@ -14,3 +14,9 @@ def QueryTeste(filtro):
         dados_query.append(resultado)
 
     return dados_query
+
+
+def query_id():
+    query = Tabela1.objects.all()
+    lista_query = [id_tabela.id for id_tabela in query]
+    return lista_query

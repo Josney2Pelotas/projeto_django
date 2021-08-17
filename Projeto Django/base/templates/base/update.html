@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row justify-content-center mt-5">
+                <form method="post">
+                    {% csrf_token %}
+                    <select class="form-select" name="id" required>
+                        {% for id in response.ids %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" name="coluna2" min="0" required>
+                    <input type="number" name="coluna1" required>
+                    <button type="submit" class="btn btn-primary ml-3">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
