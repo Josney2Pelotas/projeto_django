@@ -13,5 +13,5 @@ class AuthMiddleware:
     def process_view(self, request, view_func, view_args, view_kwargs):
         valida_token = request.headers['token']
         if not valida_token:
-            return JsonResponse({'erro': 'VAI SE FUDE'})
+            return JsonResponse({'erro': 'teste sem token'})
         return
