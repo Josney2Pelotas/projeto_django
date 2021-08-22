@@ -11,7 +11,12 @@ class AuthMiddleware:
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        valida_token = request.headers['token']
-        if not valida_token:
-            return JsonResponse({'erro': 'teste sem token'})
-        return
+        if 'token' in request.headers:
+            if request.headers['token'] != '1234':
+                return JsonResponse({'erro': 'token incorreto'})
+            else:
+                request.session['middleware'] = 'teste middleware'
+                return
+        else:
+            return JsonResponse({'erro': 'sem token no header'})
+

@@ -5,6 +5,7 @@ from base.models import *
 class GetSerializer(serializers.Serializer):
     dados = serializers.ListField()
     ids = serializers.ListField()
+    user = serializers.CharField()
 
 
 class InsertIdsSerializer(serializers.Serializer):

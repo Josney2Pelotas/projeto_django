@@ -7,7 +7,7 @@ from base.querys import *
 
 class GetView(APIView):
     def get(self, request):
-        dados_serializer = {'dados': queryvalores(request.data), 'ids': query_id()}
+        dados_serializer = {'dados': queryvalores(request.data), 'ids': query_id(), 'user': request.session.get('middleware')}
         serializer = GetSerializer(dados_serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
