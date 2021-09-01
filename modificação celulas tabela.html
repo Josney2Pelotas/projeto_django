@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <style>
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            /* The slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script>
+            var obj = {};
+            var perc = 100;    
+
+            $(document).ready(function(){
+                cont_c1 = 0;
+                cont_c2 = 0;
+                $('.perc').each(function(){
+                    obj[$(this)[0].classList[0]] = $(this).text()
+                    let perc = parseFloat($(this).text());
+                    cont_c1 += perc;
+                });
+
+                $('.val').each(function(){
+                    let val = parseFloat($(this).text());
+                    cont_c2 += val;
+                });
+
+                $('#c1').html(cont_c1);
+                $('#c2').html(cont_c2);
+            })
+
+            function input(){
+                $('.perc').each(function(index){
+                    var val = parseFloat($(this).text());
+                    $(this).html('<input id="'+ index +'" class="input" type="number" value="' + val + '"><label class="switch"><input id="'+ index +'-checkbox" type="checkbox" onclick="desabilita('+ index +')"><span class="slider round"></span></label>');
+                    $("#btn").attr("onclick","texto()");
+                });
+            };
+
+            function texto(){
+                $('.input').each(function(){
+                    var val = $(this).val()
+                    $(this).parent().html(val);
+                    $("#btn").attr("onclick","input()");
+                });
+            };
+
+            function desabilita(id){
+                var id_checkbox = '#' + id + '-checkbox'
+                if($(id_checkbox).is(':checked')){
+                    $('input[id="'+ id +'"]').prop('disabled', true);
+                    perc -= parseFloat($('input[id="'+ id +'"]').val());
+                }    
+                else{
+                    $('input[id*="'+ id +'"]').prop('disabled', false);
+                    perc += parseFloat($('input[id="'+ id +'"]').val());
+                }
+            };
+
+            function validar(){
+                var erro = 0;
+                $('.input').each(function(){
+                    if($(this).val() > 100){
+                        alert('puedes?');
+                        erro = 1;
+                    }
+                });
+                if(erro == 0){
+                    calcular();
+                }
+            };
+
+            function calcular(){
+                var qtd_restante = $('.input').length
+                $('.input').each(function(){
+                    if($(this).attr('disabled')){
+                        qtd_restante -= 1;
+                    }
+                });
+
+                var total = perc/qtd_restante;
+
+                $('.input').each(function(){
+                    var attr = $(this).attr('disabled');
+                    if (typeof attr === 'undefined' || attr === false) {
+                        $(this).val(total);
+                    }
+                });
+
+                $('.val').each(function(index){
+                    for (let i = 0; i < $('.input').length; i++) {
+                        var classe_input = $('.input').eq(0).parent()[0].classList[0];
+                        var classe_valor = $('.val')[index].classList[0];
+                        if (classe_input == classe_valor) {
+                            val_final = $('.input').eq(i).val() * parseFloat($('#c2').text()) / 100 
+                            $('.val').eq(i).text(val_final);
+                        }
+                    };
+                });
+            };
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row mt-5 mx-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">sigla</th>
+                            <th scope="col">sn</th>
+                            <th scope="col">val 1</th>
+                            <th scope="col">val 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">SIGLA1</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <td>SN1</td>
+                            <td class="1 perc">25</td>
+                            <td class="1 val">88.5</td>
+                        </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <td>SN2</td>
+                            <td class="2 perc">25</td>
+                            <td class="2 val">88.5</td>
+                        </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <td>SN3</td>
+                            <td class="3 perc">25</td>
+                            <td class="3 val">88.5</td>
+                        </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <td>SN4</td>
+                            <td class="4 perc">25</td>
+                            <td class="4 val">88.5</td>
+                        </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <td></td>
+                            <td id="c1">-</td>
+                            <td id="c2">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <button type="button" id="btnCalculo" class="btn btn-primary mr-3" onclick="validar()">validar</button>
+                <button type="button" id="btn" class="btn btn-primary" onclick="input()">trocar</button>
+            </div>
+        </div>
+    </body>
+</html>
