@@ -1,0 +1,42 @@
+function calcular(){
+    let perc = 100;
+    let qtd_restante = $('.edit_valor').length - input_alterado.length;
+    let representatividade_total = 0;
+    let vcpu_total = 0;
+
+    input_alterado.forEach((value) => {
+        if (input_alterado.includes(value.toString())){
+            perc -= parseFloat($(`#${value}`).val());
+        }
+    });
+
+    let representatividade_restante = perc/qtd_restante;
+    
+    $('.edit_valor').each((index) => {
+        let value = parseFloat($(`#${index}`).val());
+        if(!input_alterado.includes($(`#${index}`).attr('id'))){
+            value = representatividade_restante;
+        }
+        value = value.toString().replace('.', ',');
+        $(`#${index}`).parent().html(value + '%');
+    });
+
+    $('.val').each((index) => {
+        let sn_vcpu_ajustado = $('.val')[index].classList[0].toString();
+        let sn_representatividade = $(`td[class="${sn_vcpu_ajustado} edit"]`)[0].classList[0];
+        if (sn_vcpu_ajustado == sn_representatividade) {
+            let vcpu_ajustado = parseFloat($(`td[class="${sn_vcpu_ajustado} edit"]`).eq(0).text().replace('%', '').replace(',', '.')) * /*parseFloat($('#c2').text())*/ 354 / 100 
+            $('.val')[index].innerHTML = vcpu_ajustado;
+        }
+    });
+
+    
+    let cont_representatividade = 0;
+    let cont_vcpu = 0;
+    for (let i = 0; i < $('.edit').length; i++){
+        cont_representatividade += parseFloat($('.edit').eq(i).text());
+        cont_vcpu += parseFloat($('.val').eq(i).text());
+    };
+    $('#c1').html(cont_representatividade);
+    $('#c2').html(cont_vcpu);
+};
